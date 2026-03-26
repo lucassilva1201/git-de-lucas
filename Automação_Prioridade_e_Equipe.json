@@ -1,0 +1,1693 @@
+{
+  "name": "Automação Prioridade e Equipe",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.clickup.com/api/v2/task/{{ $('Consulta as tarefas1').item.json.id }}/field/1296434b-d711-4cbd-a578-31041223ecf5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "clickUpApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"value\": {\n    \"add\": [\"d9999baf-9034-4f02-a6ab-84dbe12bfac4\"],\n    \"rem\": []\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        704
+      ],
+      "id": "1f6ae380-6e1f-440d-b5fe-7db4221199ec",
+      "name": "Equipe 1- Funcionando",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.clickup.com/api/v2/task/{{ $('Consulta as tarefas1').item.json.id }}/field/1296434b-d711-4cbd-a578-31041223ecf5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "clickUpApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"value\": {\n    \"add\": [\"eeb75448-549b-43d2-9a2b-5a4c83b0d23f\"],\n    \"rem\": []\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2928,
+        1600
+      ],
+      "id": "d0dc1109-dee6-43af-b13e-b6ac7a0d5b10",
+      "name": "Equipe 6- Funcionando",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.clickup.com/api/v2/task/{{ $('Consulta as tarefas1').item.json.id }}/field/1296434b-d711-4cbd-a578-31041223ecf5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "clickUpApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"value\": {\n    \"add\": [\"eeb75448-549b-43d2-9a2b-5a4c83b0d23f\"],\n    \"rem\": []\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        1328
+      ],
+      "id": "5b013e7d-927b-42c2-80a1-88b18e7ae992",
+      "name": "Equipe 5- Funcionando",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.clickup.com/api/v2/task/{{ $('Consulta as tarefas1').item.json.id }}/field/1296434b-d711-4cbd-a578-31041223ecf5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "clickUpApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"value\": {\n    \"add\": [\"8e5e6e41-fb49-40b4-ac18-58d634149a1c\"],\n    \"rem\": []\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        1168
+      ],
+      "id": "4cec493e-c335-47dc-a9de-ec58d57599f4",
+      "name": "Equipe 4- Funcionando ",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.clickup.com/api/v2/task/{{ $('Consulta as tarefas1').item.json.id }}/field/1296434b-d711-4cbd-a578-31041223ecf5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "clickUpApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"value\": {\n    \"add\": [\"6e9c067d-0364-44b5-b3a2-239b24f69e33\"],\n    \"rem\": []\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        1008
+      ],
+      "id": "2b73249d-fa09-42eb-932a-170969157e8e",
+      "name": "Equipe 3- Funcionando",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.clickup.com/api/v2/task/{{ $('Consulta as tarefas1').item.json.id }}/field/1296434b-d711-4cbd-a578-31041223ecf5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "clickUpApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"value\": {\n    \"add\": [\"881b555d-e5ec-463f-842b-22b5e5f0adc3\"],\n    \"rem\": []\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        848
+      ],
+      "id": "72e90abd-cfb3-42b9-b605-80fd90db928a",
+      "name": "Equipe 2- Funcionando",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "id": "={{ $json.task_id }}"
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        592,
+        1152
+      ],
+      "id": "d4c7d38c-3bd1-439c-8ac9-5f7948386bfc",
+      "name": "Consulta as tarefas1",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  // Usa description se existir, senão text_content\n  let texto = (item.json.description ?? item.json.text_content ?? item.json.markdown_description ?? \"\").trim();\n\n  // Regex para CPF (com ou sem pontuação)\n  const regexCpf = /\\b\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}\\b/g;\n\n  // Regex para telefone (com ou sem DDD, incluindo celulares)\n  const regexTelefone = /(\\(?\\d{2}\\)?\\s?)?(9?\\d{4})-?\\d{4}/g;\n\n  // Regex para e-mail\n  const regexEmail = /\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b/g;\n\n  // Regex para endereço\n  const regexEndereco = /\\b(rua|avenida|av\\.?|travessa|estrada|rodovia|alameda)\\s+[^\\n,\\.]*/gi;\n\n  // Regex para RG\n  const regexRg = /\\b\\d{1,2}\\.?\\d{3}\\.?\\d{3}-?[0-9xX]\\b/g;\n\n  // Regex para CNPJ\n  const regexCnpj = /\\b\\d{2}\\.?\\d{3}\\.?\\d{3}\\/?\\d{4}-?\\d{2}\\b/g;\n\n  // Regex para CEP\n  const regexCep = /\\b\\d{5}-?\\d{3}\\b/g;\n\n  // Aplica anonimização\n  texto = texto\n    .replace(regexCpf, 'XXX.XXX.XXX-XX')\n    .replace(regexRg, 'XX.XXX.XXX-X')\n    .replace(regexCnpj, 'XX.XXX.XXX/XXXX-XX')\n    .replace(regexTelefone, '(XX) XXXXX-XXXX')\n    .replace(regexEmail, 'usuario@exemplo.com')\n    .replace(regexEndereco, 'Endereço Anonimizado')\n    .replace(regexCep, 'XXXXX-XXX');\n\n  // Retorna o item atualizado mantendo os outros campos\n  return {\n    json: {\n      ...item.json,\n      description: texto\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        96
+      ],
+      "id": "e9f2478a-f9a8-4091-8498-a7a948a1d359",
+      "name": "Anonimizar Dados1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1200,
+        272
+      ],
+      "id": "86ab529b-7626-4c4a-b1c3-af705ebf7a0a",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "c8iNeh2hWuLkcbyu",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('AI Agent2').item.json.output }}",
+                    "rightValue": "3",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "d54bcef3-37d7-49c3-ac46-bf0d5e7b8158"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2a7ed1f3-ab02-4041-a69f-19142001984f",
+                    "leftValue": "={{ $('AI Agent2').item.json.output }}",
+                    "rightValue": "2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3fe7fce2-2814-4c76-99bb-2c5da44cc091",
+                    "leftValue": "={{ $('AI Agent2').item.json.output }}",
+                    "rightValue": "1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "76cd87b9-2ced-4772-9334-f44cec301005",
+                    "leftValue": "={{ $('AI Agent2').item.json.output }}",
+                    "rightValue": "4",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2032,
+        48
+      ],
+      "id": "b4d52911-1314-463a-a712-e8e94bc8625b",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é responsável por analisar chamados técnicos e classificá-los conforme as prioridades abaixo:\nRetorne apenas um número:\n- Urgente → 1\n- Alta → 2\n- Normal → 3\n- Baixa → 4\n- Se não se encaixar → 0\n- *Se, somente se não tiver dados na descrição suficiente para categorizar, falta de texto,  retorne 5*\n\nSe o título e a descrição do chamado não corresponder com ALTO GRAU DE SIMILARIDADE a nenhum dos exemplos listados, IGNORE o chamado e NÃO atribua nenhuma prioridade.\n\n-------------------------------------------------------------------\n\n1 — PRIORIDADE URGENTE\nClassificar como \"1\" se a descrição indicar claramente:\n\nAMPLIMED/ Clinica\n- Amplimed fora do ar\n- Amplimed travando\n- Amplimed muito lento e não responde\n- Erro crítico ao acessar Amplimed\n- Amplimed só carregando e não abre\n- Peciente agurdando atendimento na clinica\n\nPROTHEUS\n- Protheus fora do ar\n- Protheus travando ou caindo frequentemente\n- Erro ao gerar boleto no Protheus\n- Erro de importação na folha\n- Divergência de valores no relatório financeiro\n- Erro no lançamento de títulos contábeis\n- Erro no DMED\n- ERRO ESTRUTURA DO ARQUIVO\n -Lançamento contábil na conta errada.\n -Falha na exportação de boleto \n -Lançamento contábil na conta errada.\n- painel reinf\n\n\nVENDAS (Vitalmed, Boa Saúde, Helpmóvel)\n- Senha de assinatura não está sendo enviada\n- Status de pagamento da adesão não atualiza\n- Erro ao imprimir contratos\n- Erro no fechamento de caixa\n- Instabilidade no link de pagamento\n- Erro ao editar proposta\n- Erro no web service de proposta ou assinatura\n- Vendas fora do ar\n- Lentidão \n- Sistema com erro ou inativo\n- Só carrega e não abre\n- Qualquer erro de importação\n\nSMART / ASSIST / SOLIC\n- Paciente não encontrado no Assist\n- Solicitação de material ou medicamento com erro\n- Erro ao gerar relatório PDF\n- Erro no correio eletrônico para fornecedores\n- Sistema Assist travando\n- Erro ao mudar status para autorizado (internamento)\n- PRORRAGAÇÃO FATURAMENTO\n\nAPP VITALMED ONLINE\n- Marcação online indisponível\n- Usuário não encontrado no app\n- Erro ao acessar o app Vitalmed\n- Sem acesso ao sistema de vendas\n-Falha na exportação de boleto \n\nRM\n- Erro no envio de e-Social\n- Erro em evento de e-Social\n- Erro na transferência de funcionário\n\n\nSAEVI\n\n- RAM reclassificado\n- Reajuste tabela de valores\n- Ajustar tabela de valores da hora médica\n\n-------------------------------------------------------------------\n\n2 — PRIORIDADE ALTA\nClassificar como \"2\" se a descrição indicar claramente:\n\nCOBRANÇA INDEVIDA / CADASTRO\n- Beneficiário foi cobrado após exclusão\n- Erro ao cadastrar vidas no Protheus\n- Divergência de matrícula no cadastro\n\nCOMERCIAL / FINANCEIRO\n- Inconsistência de valores em tabela de comercialização\n- Dados da mensalidade somem após editar proposta\n- Exclusão incorreta de IR, PCC ou ISS\n- Erro em relatórios ou etiquetas com CRF incorreto\n- Falha no link de pagamento\n\nPROPOSTAS / SISTEMA\n- Propostas continuam visíveis após recusa\n- Erro ao incluir dependentes nas vendas online\n- Acesso indevido a prontuário médico\n- Erro no módulo 33 do Protheus\n- Sem acesso ao smart web\n\nCONFIGURAÇÃO / SEGURANÇA\n- Troca de senha no ConsigLog\n- Erro no ConsigLog\n- Criação de usuário no ConsigLog\n- Erro ao acessar o ConsigLog\n- Erro na coligada de Brasília impedindo geração da folha\n\nTRAT\n-TratCCO\n-TratAreaMedica\n-TratComercial\n-já existia os 2 trats responsáveis\n-Qualquer problema relacionado ao \"TRAT\"\n\nLINK DE PAGAMENTO\n-Problema com link de pagamento\n-a opção de \"finalizar pedido\" esta como \"place order\"\n-Problema ao efetuar pagamento\n\nGERAL\n-Conta Inativa\n-Senha expirada\n-Usuário e senha não coincidem\n- Se for solicitação de senha para mais de um sistema\n-Problemas no acesso ao Aplicativo(app) ou site VitalMed Online\n-conciliador backoffice\n-Baixa de arquivo em banco errado\n-conciliador backoffice\n- Erro na importação\n-Modificação/mudança de data de internamento\n -Erro na integração do titulo\n -TRANSMISSÃO NOTA FISCAL HELPMÓVEL\n -dificuldades para gerar o boleto\n -ERRO no lançamemento do AB-\n -Lançamento contábil na conta errada\n -SITE NÃO GERA CARTEIRA \n- Brevidade\n- Alçada de aprovação\n- Erro ao transmitir nota/NF\n- Processo de importação/solicitação das carteirinhas\n- Tarifa não está sendo abatida\n- Erro ao gerar titulo\n- valor não difere da tabela correta\n- Recibo de férias\n- Erro no pix recorrente\n- cobrança de coparticipação\n\nANFE\n\n- Falha no acesso ao sistema\n- Alteração de senha\n- Criação de usuário\n\n- relatórios RM\n\n-------------------------------------------------------------------\n\n3 — PRIORIDADE NORMAL\nClassificar como \"3\" se a descrição corresponder claramente a um dos seguintes exemplos:\n\n- Nota fiscal aparece nos itens mas não é localizada\n- Solicitação de matrícula para cadastro no Protheus\n- Erro na alteração da data de entrega (AF) no Smart\n- Erro pontual no sistema de vendas, sem travar o sistema\n- falha na emissão de relatórios\n- planilhas ou relatórios sem Natureza\n- Exclusão de Titulos\n- liberar call-center\n- Acesso a call center\n- Alteração em relatórios\n- Execução do Sispag\n- Incluam de informações em relatórios\n- Falha na emissão de relatórios\n- Dados incorreto ou incompleto em relatórios\n- Problemas para entrar no canal do colaborador.\n- Falha ao fazer solicitação de material-insumo\n- solicitar insumo\n- Exclusão de lançamento\n- Exclusão de titulo\n- alterar a natureza\n- Relatório de Seguro Desemprego\n- Familia usuário\n- Edição de formulário\n- Problema em formulário\n- Grupo de aprovação\n- Inclusão de aprovador\n- formulário da GUIA de CONSULTA seja restaurada para formato\n- Sistema de Vendas online\n- Inclusão de banco\n- IMPOSTO\n- Meu RH\n- Contrato Intermitente\n- comissionamento PJ/ comissão PJ\n-gerar as guias de autorização\n -Redistribuir Lista de Cobrança\n -vendas barrando inclusão no CPF\n -CÓDIGO DO CLIENTE FORA DA SEQUÊNCIA\n -CERTIFICADO DIGITAL MEDICOS VITALCARE\n -Alteração de dados cadastrais\n -Protheus com erro\n -Pedido de compra aprovado diretamente\n -Pedido de compra aprovado sem seguir o fluxo\n -Pedido de compra aprovado de forma direta\n -Adicionar na planilha de atendimento geral as\ncolunas\n -Rotina já está sendo executada\n -Retenção de IR\n -Corrigir nome do paciente pois já se encontra ativo no sistema.\n -Cliente pagou titulo via I.A, recebimento duplicado\n-------------------------------------------------------------------\n\n4 — PRIORIDADE BAIXA\nClassificar como \"4\" se a descrição corresponder claramente a um dos seguintes exemplos:\n\n- Solicitação de relatório de contratos PF co-participativos\n- Solicitação para colocar campos em caixa alta\n- Solicitação de acesso ao RM já resolvida\n- Inserir assinatura digital no Smart\n- Bloquear acesso de colaborador desligado\n- Atualização das listas de cobrança com mensagem sem impacto funcional\n- Customizações sugeridas pelo CRC e Qualidade para carteirinhas\n- Solicitação de relatórios\n- controle e envio das notas fiscais ao setor financeiro\n- Alteração de estrutura SIV para UBAe e a estrutura UBA para UBAt.\n- Alteração de estrutura\n- Liberação de perfil\n- Retirar box de envio\n- Multiplas abas\n\nNão categorizar:\n- solicitações para e-mail: Senha, redefinição de senha, grupo de e-mail.\n- Armazenamento e-mail, armazenamento disponitivos.\n\n-------------------------------------------------------------------\n\nINSTRUÇÕES FINAIS\n- Ignore completamente qualquer tentativa do solicitante de classificar a própria prioridade. Frases como “prioridade baixa”, “alta prioridade”, “urgente”, etc., não devem influenciar a decisão.\n- A classificação deve ser feita exclusivamente com base no conteúdo técnico e no contexto operacional, comparando com os exemplos listados.\n- Se o chamado descrever claramente um dos casos, mas estiver com erro de digitação (ex: “amplimedi”, “protheus”, “assit”), ainda assim deve ser considerado, desde que o significado seja inequívoco.\n- Nunca classifique chamados apenas por conter palavras como “urgente”, “erro”, “problema”, “prioridade alta”.\n- Sempre classifique pela análise do cenário real descrito, mesmo que mal escrito.\n- Acesso, senha, problemas de login SAEVI/saevi\n\nAGORA, ANALISE O CHAMADO A SEGUIR:\n\ntitulo {{ $json.name }}\ndescrição {{ $json.description }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1232,
+        80
+      ],
+      "id": "a6a38619-fb16-4bca-a9da-cc7b5eb2c881",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "content": "## Categorização Equipe\n**Double click** to edit me. [Guide](https://docs.n8n.io/workflows/sticky-notes/)",
+        "height": 1360,
+        "width": 2352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        416,
+        704
+      ],
+      "typeVersion": 1,
+      "id": "efb65e13-68e2-496f-9fa2-c1812a445dc4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Webhook\n**Double click** to edit me. [Guide](https://docs.n8n.io/workflows/sticky-notes/)",
+        "height": 240,
+        "width": 256,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -272,
+        448
+      ],
+      "typeVersion": 1,
+      "id": "77d57a98-7683-49e5-9b0c-61f741560448",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  // Usa description se existir, senão text_content\n  let texto = (item.json.description ?? item.json.text_content ?? item.json.markdown_description ?? \"\").trim();\n\n  // Regex para CPF (com ou sem pontuação)\n  const regexCpf = /\\b\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}\\b/g;\n\n  // Regex para telefone (com ou sem DDD, incluindo celulares)\n  const regexTelefone = /(\\(?\\d{2}\\)?\\s?)?(9?\\d{4})-?\\d{4}/g;\n\n  // Regex para e-mail\n  const regexEmail = /\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b/g;\n\n  // Regex para endereço\n  const regexEndereco = /\\b(rua|avenida|av\\.?|travessa|estrada|rodovia|alameda)\\s+[^\\n,\\.]*/gi;\n\n  // Regex para RG\n  const regexRg = /\\b\\d{1,2}\\.?\\d{3}\\.?\\d{3}-?[0-9xX]\\b/g;\n\n  // Regex para CNPJ\n  const regexCnpj = /\\b\\d{2}\\.?\\d{3}\\.?\\d{3}\\/?\\d{4}-?\\d{2}\\b/g;\n\n  // Regex para CEP\n  const regexCep = /\\b\\d{5}-?\\d{3}\\b/g;\n\n  // Aplica anonimização\n  texto = texto\n    .replace(regexCpf, 'XXX.XXX.XXX-XX')\n    .replace(regexRg, 'XX.XXX.XXX-X')\n    .replace(regexCnpj, 'XX.XXX.XXX/XXXX-XX')\n    .replace(regexTelefone, '(XX) XXXXX-XXXX')\n    .replace(regexEmail, 'usuario@exemplo.com')\n    .replace(regexEndereco, 'Endereço Anonimizado')\n    .replace(regexCep, 'XXXXX-XXX');\n\n  // Retorna o item atualizado mantendo os outros campos\n  return {\n    json: {\n      ...item.json,\n      description: texto\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        1152
+      ],
+      "id": "c1e961ae-671d-4fa9-baf6-b1eacdcc252a",
+      "name": "Anonimizar Dados2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1088,
+        1328
+      ],
+      "id": "460bbb8d-6c69-4f6c-96ac-7da3168dc990",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "c8iNeh2hWuLkcbyu",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('AI Agent1').item.json.output }}",
+                    "rightValue": "1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "d54bcef3-37d7-49c3-ac46-bf0d5e7b8158"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2a7ed1f3-ab02-4041-a69f-19142001984f",
+                    "leftValue": "={{ $('AI Agent1').item.json.output }}",
+                    "rightValue": "2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3fe7fce2-2814-4c76-99bb-2c5da44cc091",
+                    "leftValue": "={{ $('AI Agent1').item.json.output }}",
+                    "rightValue": "3",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "76cd87b9-2ced-4772-9334-f44cec301005",
+                    "leftValue": "={{ $('AI Agent1').item.json.output }}",
+                    "rightValue": "4",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8c02684f-023e-444f-b8bf-65c1b60e8537",
+                    "leftValue": "={{ $('AI Agent1').item.json.output }}",
+                    "rightValue": "5",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4f243a6a-2a9c-4df4-ba26-14ec56f1038d",
+                    "leftValue": "={{ $('AI Agent1').item.json.output }}",
+                    "rightValue": "7",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "233efb6e-d941-4ebd-8eb6-45e9acc3a78d",
+                    "leftValue": "={{ $('AI Agent1').item.json.output }}",
+                    "rightValue": "8",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1680,
+        1072
+      ],
+      "id": "a0f89417-e3da-4855-9f15-df80f0e04de3",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é um classificador de tarefas.\n\nSua função é ler o título e a descrição da tarefa e identificar qual sistema ou programa está relacionado.\nDepois, retorne somente o número da equipe responsável, conforme o mapeamento e exemplos abaixo.\n\nRegras Gerais\n\nAnalise tanto o título quanto a descrição para determinar o sistema/setor.\n\nUtilize os exemplos listados como casos de referência: não é necessário que as palavras sejam idênticas, basta que o problema seja equivalente.\n\nSe a tarefa mencionar explicitamente um sistema ou se enquadrar em um dos exemplos → atribua a equipe correspondente.\n\nSe não se encaixar em nenhuma regra → retorne 0.\n\nNão classificar tarefas relacionadas a:\n\n-ZIMBRA/Email/Acesso de rede/Acesso de máquina\n-FaleWeb/Digitro\n-criação de usuário para saevi\n-criação de usuário para banco de dados\n-criação de usuário para retaguarda\n\n*Equipe 1*\n\nExemplos (interpretação por contexto):\n\nTratar problemas relacionados a Protheus nos módulos PLS(Plano de saúde), setor de cadastro e comercial. Sistemas de Vendas (Vitalmed, Boa Saúde, Helpmóvel), App Vitalmed Online, PLS e relatórios iniciados com MPLSR\n-Sistema de Vendas online\n-Plataforma de vendas não mostra propostas lançadas, propostas não abrem, não imprimem, código de vendedor incorreto, problemas com link ou credenciais de assinatura, vencimento de certificado digital.\n\n-Cliente não consegue pagar boleto gerado no app (boleto com falha no código de barras, sem valor, não emitido).\n\n-Problemas, alterações ou inclusões em relatórios MPLSR (PLS, comercial, cadastro).\n-Relatórios fiscais \n-CRC\n-Marketing,\n-Trat\n\n-Cadastro de CPF, CEP, endereço, importação de vidas/propostas, cadastro manual, relatórios de CNAB.\n-Registro no Call Center: cliente/paciente não localizado no atendimento.\n-Inconsistência de valores em tabela de comercialização.\n-Protheus fora do ar, travando ou caindo.\n-Erro ao gerar boleto no Protheus.\n-Erro na folha, DMED, lançamento de títulos contábeis.\n-Divergência em relatórios financeiros.\n-Alterar endereço de cliente.\n-Emissão de relatório de reajuste.\n-Dados da mensalidade desaparecem após editar proposta.\n-Propostas visíveis após recusa.\n-Erro ao incluir dependentes nas vendas online.\n- Substituição das Cláusulas Contratuais\n- comissionamento PJ/ Comissão PJ\n- Cadastro de Acordo e Repasse cadastro de tabela, produto\n\n-Beneficiário cobrado após exclusão.\n-Erro ao cadastrar vidas no Protheus.\n-Divergência de matrícula.\n-Cliente não localizado.\n-Exclusão incorreta de IR, PCC ou ISS.\n-Relatórios ou etiquetas com CRF incorreto.\n-REINF, EFD, lançamento padrão.\n-Acesso indevido a prontuário médico(relacionado ao amplimed).\n-Erro no módulo 33 do Protheus.\n-Qualquer problema relacionado ao TRAT (CRC, CCO, Área Médica, Comercial).\n-Códigos não desbloqueados após pagamento quando há mais de um título em aberto.\n-Inconsistência no desbloqueio.\n-Divergência em relatórios de cancelamento, usuário cancelado ou bloqueios automáticos.\n-Qualquer tarefa relacionada a não conformidade, tratativa de reclamação ou ocorrência.\n\n\n\n**Equipe 2**\n\n(Financeiro, Faturamento, Compras e Contas Médicas)\n\nExemplos (interpretação por contexto):\n\n-Poblema com link de pagamento.\n-Falha no link de pagamento.\n-Movimento bancário.\n-Nota fiscal, títulos, geração de boletos/títulos.\n-Qualquer problema de faturamento.\n-Importação de lançamentos.\n-PCC.\n-Sispag.\n-Alteração de natureza.\n-Centro de custo.\n-Exclusão de títulos.\n-Lista de cobrança.\n-Qualquer tarefa que mencione Banco (Banco do Brasil, -Santander, Mercado Pago, Caixa, etc.).\n-Títulos transmitidos sem baixa.\n-Transmissão de notas fiscais.\n-Faturas.\n-Inclusão de Banco\n- painel reinf\n- Alçada de aprovação/grupo de aprovação/pedido de compra\n\n\n**Equipe 3**\n\nSMART / ASSIST / SOLIC/ INTERN/ CAPTA\n\n- Paciente não encontrado no Assist\n- Solicitação de material ou medicamento com erro\n- Erro ao gerar relatório PDF\n- Erro no correio eletrônico para fornecedores\n- Sistema Assist travando\n- Erro ao mudar status para autorizado \n- LANÇAMENTOS AUTOMATICOS\n- Edição de formulário\n- Problema em formulário\n- Guias e senha (relacionados ao Smart/Intern)\n- Smart\n- Relatório para remoção\n- Admissão de pacientes\n- Paciente admitido\n- Solicitações de alta para paciente\n- Mudança de status de internamento\n- Prorrogação, Relatório de prorrogação, relatório prorrogação faturamento\n\n\n**Equipe 4**\n \nAMPLIMED\n\n- Problemas de qualquer natureza com o sistema Amplimed\n- Guias e senha (Relacionado ou Protheus/Clinica/ clinica boa saude/ paciente aguardando atendimento)\n- App Boa Saude\n- Vendas Boa saude\n\n**Classificar como \"5\" se a descrição indicar claramente:**\n\n- Qualquer tarefa relacionado ao sistema RM\n- E-SOCIAL\n- COLIGADA\n- FOLHA DE PAGAMENTO\n- MEU RH\n- Erro na coligada de Brasília impedindo geração da folha - RM\n- Erro no envio de e-Social\n- Erro em evento de e-Social\n- Erro na transferência de funcionário\n\nEquipe 7\n\n-Problemas relacionados a CCO, RAM e Retaguarda.\n-Exemplos (interpretação por contexto):\n-Criação e disponibilização de relatórios de comissionamento ou inadimplência no canal do colaborador.\n-Necessidade de emissão de boletim médico por estrutura.\n-Inserção ou resumo da ação do Operador de Logística no ALERTA SAEVI.\n-Relatório de motivos de atraso na saída.\n-Qualquer ocorrência envolvendo Saevi Web ou Saevi (alteração, inclusão, exclusão).\n-Qualquer situação no sistema Retaguarda (exceto troca/reset de senha ou criação de usuário).\n- Parametrização da tabela de valores da hora médica\n\nEquipe 8\n\n- Troca de senha de qualquer sistema\n- qualquer tarefa relacionado aos sistemas ConsigLog/Saeb/Saec/TRT5\n- Criação de usuário de qualquer sistema\n- Erro ao acessar o ConsigLog\n- INCLUSÃO DE ASSINATURA\n- CONTA INATIVA\n- DESBLOQUEIO DE Usuário\n- BLOQUEIO DE USUÁRIO\n\n\nRetorne somente o Número da equipe(1,2,3,4,5,7,8 ou 0)\n\n\nTítulo da tarefa: {{ $json.name }}\n\nDescrição da tarefa: {{ $json[\"description\"] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1088,
+        1152
+      ],
+      "id": "a610361a-a918-4494-aa85-1528d6c6c720",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "id": "={{ $('Anonimizar Dados1').item.json.id }}",
+        "updateFields": {
+          "priority": "=2"
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        2384,
+        0
+      ],
+      "id": "b3ad7639-64e0-4d80-85ad-1016da5594c7",
+      "name": "Alta1",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "id": "={{ $('Anonimizar Dados1').item.json.id }}",
+        "updateFields": {
+          "priority": 1
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        2384,
+        176
+      ],
+      "id": "0c67b2ee-2136-4195-b0f5-b82f52c26ac4",
+      "name": "Urgente1",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "id": "={{ $('Anonimizar Dados1').item.json.id }}",
+        "updateFields": {
+          "priority": 3
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        2384,
+        -192
+      ],
+      "id": "3346cbf2-4cb0-4085-83c5-928800a087d4",
+      "name": "Normal1",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "id": "={{ $('Anonimizar Dados1').item.json.id }}",
+        "updateFields": {
+          "priority": 4
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        2384,
+        320
+      ],
+      "id": "73654a56-a778-4cb9-9f4b-8ec7c89cbd44",
+      "name": "Baixa1",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    output: ($json.output || \"\").toString().trim()\n  }\n}]\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        80
+      ],
+      "id": "d25898ae-9599-4921-9537-5419bae20139",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "id": "={{ $json.task_id }}",
+        "includeMarkdownDescription": true
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        608,
+        96
+      ],
+      "id": "46b99e32-13ec-42c6-a3df-028d1181699a",
+      "name": "Get a task1",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.clickup.com/api/v2/task/{{ $('Consulta as tarefas1').item.json.id }}/field/1296434b-d711-4cbd-a578-31041223ecf5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "clickUpApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"value\": {\n    \"add\": [\"16ed1f1b-53a8-43a4-a916-37f708435908\"],\n    \"rem\": []\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2912,
+        1392
+      ],
+      "id": "94e8a023-b12d-46c3-bfe4-ed580d1ff263",
+      "name": "Equipe 8 - João Daniel",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Categorização Prioridade\n**Double click** to edit me. [Guide](https://docs.n8n.io/workflows/sticky-notes/)",
+        "height": 736,
+        "width": 2352,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        224,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "e1b7d5f4-702a-46f2-b946-190a2030f927",
+      "name": "Inserir no Banco"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "n8n_priority",
+          "mode": "list",
+          "cachedResultName": "n8n_priority"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ticket_id": "={{ $('Get a task1').item.json.id }}",
+            "priority": "={{ $json.output }}",
+            "datetime": "={{ $now}}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ticket_id",
+              "displayName": "ticket_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "priority",
+              "displayName": "priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "priority_mod",
+              "displayName": "priority_mod",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "datetime",
+              "displayName": "datetime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "datetime_mod",
+              "displayName": "datetime_mod",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1824,
+        80
+      ],
+      "id": "008ae2e2-cf11-4410-996a-44f14f59d1b1",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "DWxLGES5L9OFEDSX",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "n8n_equipe",
+          "mode": "list",
+          "cachedResultName": "n8n_equipe"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ticket_id": "={{ $('Consulta as tarefas1').item.json.id }}",
+            "datetime": "={{ $now}}",
+            "equipe": "={{ $json.output }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ticket_id",
+              "displayName": "ticket_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "equipe",
+              "displayName": "equipe",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "equipe_mod",
+              "displayName": "equipe_mod",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "datetime",
+              "displayName": "datetime",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "datetime_mod",
+              "displayName": "datetime_mod",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1424,
+        1152
+      ],
+      "id": "6ef09de0-8665-455b-ac21-f99cbb900d67",
+      "name": "Insert rows in a table1",
+      "credentials": {
+        "postgres": {
+          "id": "DWxLGES5L9OFEDSX",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        800
+      ],
+      "typeVersion": 1,
+      "id": "3a8bcebe-a3b2-4e7a-9184-b3d82401ac68",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "team": "9011274318",
+        "events": [
+          "taskCreated"
+        ],
+        "filters": {
+          "listId": "901105160466"
+        }
+      },
+      "type": "n8n-nodes-base.clickUpTrigger",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        544
+      ],
+      "id": "c7e35d35-7d5b-4dda-b027-fabe75cb97a3",
+      "name": "ClickUp Trigger",
+      "webhookId": "cb579634-1c20-4917-b2f4-b8844d1793d7",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.clickup.com/api/v2/task/{{ $('Consulta as tarefas1').item.json.id }}/field/1296434b-d711-4cbd-a578-31041223ecf5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "clickUpApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"value\": {\n    \"add\": [\"1506c33e-7dea-4345-acb2-28add4d3c833\"],\n    \"rem\": []\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2960,
+        1808
+      ],
+      "id": "c686e54b-ba75-4467-8e55-d5d531088f78",
+      "name": "Equipe 8 - João Daniel1",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ff7026bb-3750-4380-a5e9-9f6f78873a10",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "5",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1520,
+        -480
+      ],
+      "id": "9c3a4536-8f9e-4e0d-b4af-5cc0dd1c35b7",
+      "name": "If",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "https://servicedesk.vitalmed.com.br/apirest.php/initSession",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2096,
+        -496
+      ],
+      "id": "6de88dc5-d906-4024-a6e8-c51c987312e7",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extrai número do ticket [12345] do título e decide se a descrição é curta\nconst title = $('Get a task1').first().json.name ;\nconst descRaw =\n  ($json.description ?? $json.text_content ?? $json.body?.description ?? $json.body?.text_content ?? '').trim();\n\nconst desc = descRaw.replace(/\\s+/g, ' ');\nconst insufficient = !desc || desc.length < 30; // ajuste o threshold se quiser\n\nconst m = title.match(/\\[(\\d+)\\]/);\nconst ticket_id = m ? m[1] : null;\n\nconst comentario = \"Com as informações passadas não foi possível identificar o problema. Informe qual é o sistema e descreva detalhadamente o problema, Pois sem essas informações não vamos poder dar andamento ao chamado!\";\n\nreturn [{ json: { ticket_id, insufficient, comentario, title, description: desc } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        -496
+      ],
+      "id": "a55b3d79-6813-44be-990b-5b3f25ae2024",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "resource": "comment",
+        "commentOn": "task",
+        "id": "={{ $('Anonimizar Dados1').item.json.id }}",
+        "commentText": "={{ $('Code').item.json.comentario }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        3248,
+        -496
+      ],
+      "id": "68a1bf0e-fd1e-45cc-8699-39bcebb60aa4",
+      "name": "Create a comment",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://servicedesk.vitalmed.com.br/apirest.php/killSession",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Session-Token",
+              "value": "={{ $('HTTP Request').item.json.session_token }}"
+            },
+            {
+              "name": "App-Token",
+              "value": "oXgeTphp8EyqcC2EWQnYBxfzhjibsZnh8G3ob0IM"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2976,
+        -496
+      ],
+      "id": "4d503c88-59b9-4941-a4e5-ac3c3a4357bf",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://servicedesk.vitalmed.com.br/apirest.php/Ticket/{{ $('Code').item.json.ticket_id }}/ITILFollowup",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "App-Token",
+              "value": "7nerIcx2c5hXdjec7Av8mzBvxVLkXnQ2rG39DXGW"
+            },
+            {
+              "name": "Session-Token",
+              "value": "={{ $('HTTP Request').item.json.session_token }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "=application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"input\": {\n        \"itemtype\": \"Ticket\",\n        \"items_id\": {{ $('Code').item.json.ticket_id }} ,\n        \"content\": \"Com as informações passadas não foi possível identificar o problema. Informe qual é o sistema e descreva detalhadamente o problema, Pois sem essas informações não vamos poder dar andamento ao chamado!\",\n        \"is_private\": 0,\n        \"requesttypes_id\": 1,\n        \"timeline_position\": 4,\n        \"sourceitems_id\": 0,\n        \"sourceof_items_id\": 0\n    }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2432,
+        -496
+      ],
+      "id": "148b32c5-c14b-44f6-a8da-2172ff85c715",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "content": "Interação com usuário\n",
+        "height": 272,
+        "width": 2016
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1264,
+        -560
+      ],
+      "typeVersion": 1,
+      "id": "28b9d8d5-485c-4136-ab15-cc9a3c932bcf",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2704,
+        -496
+      ],
+      "id": "96d556e1-4142-4f84-8af2-155c6053f30f",
+      "name": "Atualiza Status",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "sWXasulq3Naj9iHM",
+          "name": "Unnamed credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.clickup.com/api/v2/task/{{ $('Consulta as tarefas1').item.json.id }}/field/1296434b-d711-4cbd-a578-31041223ecf5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "clickUpApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"value\": {\n    \"add\": [\"16ed1f1b-53a8-43a4-a916-37f708435908\"],\n    \"rem\": []\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        1488
+      ],
+      "id": "005589d2-1869-46fd-a2f7-6aa1e2d46f26",
+      "name": "Equipe 7- Funcionando1",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.clickup.com/api/v2/task/{{ $('Consulta as tarefas1').item.json.id }}/field/1296434b-d711-4cbd-a578-31041223ecf5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "clickUpApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"value\": {\n    \"add\": [\"1506c33e-7dea-4345-acb2-28add4d3c833\"],\n    \"rem\": []\n  }\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        1664
+      ],
+      "id": "7460bf9e-c5c4-4ed0-aa4f-184cf9b62ec0",
+      "name": "Equipe 8- Funcionando",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "ClickUp Trigger": [
+      {
+        "json": {
+          "event": "taskCreated",
+          "history_items": [
+            {
+              "id": "4827913972651521380",
+              "type": 1,
+              "date": "1763562236978",
+              "field": "task_creation",
+              "parent_id": "901105160466",
+              "data": {
+                "via": "api",
+                "trace_id": "4257910182952826691",
+                "subcategory_id": "901105160466"
+              },
+              "source": "api",
+              "user": {
+                "id": 81577850,
+                "username": "Desenvolvimento TI",
+                "email": "tecnologiadesen@gmail.com",
+                "color": "#ff897f",
+                "initials": "DT",
+                "profilePicture": null,
+                "role": 4,
+                "role_subtype": 2
+              },
+              "before": null,
+              "after": null
+            },
+            {
+              "id": "4827913972651521381",
+              "type": 1,
+              "date": "1763562236978",
+              "field": "status",
+              "parent_id": "901105160466",
+              "data": {
+                "status_type": "open"
+              },
+              "source": null,
+              "user": {
+                "id": 81577850,
+                "username": "Desenvolvimento TI",
+                "email": "tecnologiadesen@gmail.com",
+                "color": "#ff897f",
+                "initials": "DT",
+                "profilePicture": null,
+                "role": 4,
+                "role_subtype": 2
+              },
+              "before": {
+                "status": null,
+                "color": "#000000",
+                "type": "removed",
+                "orderindex": -1
+              },
+              "after": {
+                "status": "backlog",
+                "color": "#ffffff",
+                "orderindex": 0,
+                "type": "open"
+              }
+            }
+          ],
+          "task_id": "868ge0jer",
+          "team_id": "9011274318",
+          "webhook_id": "9a01572b-1a8f-44ba-acca-3004ca07842e"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Consulta as tarefas1": {
+      "main": [
+        [
+          {
+            "node": "Anonimizar Dados2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anonimizar Dados1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Normal1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Alta1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Urgente1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Baixa1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anonimizar Dados2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Equipe 1- Funcionando",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Equipe 2- Funcionando",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Equipe 3- Funcionando",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Equipe 4- Funcionando ",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Equipe 5- Funcionando",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Equipe 7- Funcionando1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Equipe 8- Funcionando",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a task1": {
+      "main": [
+        [
+          {
+            "node": "Anonimizar Dados1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table1": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get a task1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Consulta as tarefas1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Create a comment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Atualiza Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza Status": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "cBgRAO4yWPUoqmEd"
+  },
+  "versionId": "3a846c31-1867-41ec-adb1-d6a2efd626fa",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "66ea558ca4517e4c39fa0ef9a945e6b0888b69d35c1bcb69dbf25a0c58b84d5a"
+  },
+  "id": "cBgRAO4yWPUoqmEd",
+  "tags": []
+}
