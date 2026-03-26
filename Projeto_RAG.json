@@ -1,0 +1,600 @@
+{
+  "name": "Rag2",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c6cade65-2448-44f3-9f63-b0f98cb21328",
+              "leftValue": "={{ $json.error }}\n",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1344,
+        160
+      ],
+      "id": "505ab675-d044-47d5-ab97-a80c1bd2b601",
+      "name": "IF - Validação OK?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/embeddings",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "text-embedding-ada-002"
+            },
+            {
+              "name": "input",
+              "value": "=={{ $json.textoCompleto }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1136,
+        192
+      ],
+      "id": "cf342429-5625-44ff-b042-a626644c2074",
+      "name": "OpenAI - Gerar Embedding",
+      "credentials": {
+        "openAiApi": {
+          "id": "c8iNeh2hWuLkcbyu",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $(\"Set - Configurações Supabase\").first().json.supabaseUrl }}/rest/v1/rpc/match_tasks_rag",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Set - Configurações Supabase').item.json.supabaseKey }}"
+            },
+            {
+              "name": "apikey",
+              "value": "={{ $('Set - Configurações Supabase').item.json.supabaseKey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n \"query_embedding\": {{ JSON.stringify($('Preparar Query Vetorial').item.json.query_embedding) }},\n  \"match_threshold\": 0.7,\n  \"match_count\": 10\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -448,
+        192
+      ],
+      "id": "0acff26d-f207-4dde-a06b-440900598b6b",
+      "name": "Supabase - Buscar Similares",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "de323b57-e529-447a-aa66-7ce800c45dd2",
+              "leftValue": "={{ $json.length }}",
+              "rightValue": "0",
+              "operator": {
+                "type": "number",
+                "operation": "larger",
+                "name": "filter.operator.larger"
+              }
+            },
+            {
+              "id": "abff5659-5f16-4a69-8720-30126344426f",
+              "leftValue": "={{ $('Supabase - Buscar Similares').all.length > 0 }}\n",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "69850f4b-aab9-420e-9480-caf1dc7ce0b0",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -208,
+        192
+      ],
+      "id": "43511eb9-0295-4d72-a5ee-ac510f2584a7",
+      "name": "IF - Temos Resultados?",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Pega os resultados da busca vetorial\nconst resultados = $input.all().map(item => item.json);\n\n// 2. Pega a Task Original (Recuperamos do nó de validação para garantir)\n// OBS: Ajuste o nome do nó dentro de $('...') se tiver mudado.\nconst taskOriginal = $('Validação e normalização').first().json;\n\n// 3. Monta o histórico formatado para o GPT (RAG)\nconst referenciasFormatadas = resultados\n  .filter(r => r.similarity > 0.70) // Filtra lixo\n  .slice(0, 5) // Pega só top 5\n  .map(r => `- [Similaridade: ${Math.round(r.similarity*100)}%] ${r.task_name} (Prioridade Antiga: ${r.prioridade})`)\n  .join('\\n');\n\n// 4. Retorna tudo num pacote só para o GPT\nreturn [{\n  json: {\n    // Passamos os dados da tarefa AQUI para não dar erro de Paired Item depois\n    taskAtual: {\n        titulo: taskOriginal.nomeOriginal,\n        descricao: taskOriginal.descricaoOriginal\n    },\n    contextoRAG: referenciasFormatadas || \"Nenhum histórico relevante encontrado.\",\n    usarGPT: true // Força a ida ao GPT\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        208
+      ],
+      "id": "b411e5ba-4f96-4b31-8e24-7439c4742162",
+      "name": "Code - Ponderação e Scoring",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "model": "gpt-4.1",
+        "prompt": {
+          "messages": [
+            {
+              "content": "=Você é responsável por analisar chamados técnicos e classificá-los conforme as prioridades abaixo:\n\n\n\nRetorne um **JSON válido** com a estrutura:  \n\n{ \"prioridade\": 1 }\n\n\n\n- Urgente → 1  \n\n- Alta → 2  \n\n- Normal → 3  \n\n- Baixa → 4  \n\n\n\n-------------------------------------------------------------------\n\n\n\n1 — PRIORIDADE URGENTE\nClassificar como \"1\" se a descrição indicar claramente:\n\nAMPLIMED/ Clinica\n- Amplimed fora do ar\n- Amplimed travando\n- Amplimed muito lento e não responde\n- Erro crítico ao acessar Amplimed\n- Amplimed só carregando e não abre\n- Peciente agurdando atendimento na clinica\n\nPROTHEUS\n- Protheus fora do ar\n- Protheus travando ou caindo frequentemente\n- Erro ao gerar boleto no Protheus\n- Erro de importação na folha\n- Divergência de valores no relatório financeiro\n- Erro no lançamento de títulos contábeis\n- Erro no DMED\n- ERRO ESTRUTURA DO ARQUIVO\n -Lançamento contábil na conta errada.\n -Falha na exportação de boleto \n -Lançamento contábil na conta errada.\n- painel reinf\n\n\nVENDAS (Vitalmed, Boa Saúde, Helpmóvel)\n- Senha de assinatura não está sendo enviada\n- Status de pagamento da adesão não atualiza\n- Erro ao imprimir contratos\n- Erro no fechamento de caixa\n- Instabilidade no link de pagamento\n- Erro ao editar proposta\n- Erro no web service de proposta ou assinatura\n- Vendas fora do ar\n- Lentidão \n- Sistema com erro ou inativo\n- Só carrega e não abre\n- Qualquer erro de importação\n\nSMART / ASSIST / SOLIC\n- Paciente não encontrado no Assist\n- Solicitação de material ou medicamento com erro\n- Erro ao gerar relatório PDF\n- Erro no correio eletrônico para fornecedores\n- Sistema Assist travando\n- Erro ao mudar status para autorizado (internamento)\n- PRORRAGAÇÃO FATURAMENTO\n\nAPP VITALMED ONLINE\n- Marcação online indisponível\n- Usuário não encontrado no app\n- Erro ao acessar o app Vitalmed\n- Sem acesso ao sistema de vendas\n-Falha na exportação de boleto \n\nRM\n- Erro no envio de e-Social\n- Erro em evento de e-Social\n- Erro na transferência de funcionário\n\n\nSAEVI\n\n- RAM reclassificado\n- Reajuste tabela de valores\n- Ajustar tabela de valores da hora médica\n\n-------------------------------------------------------------------\n\n2 — PRIORIDADE ALTA\nClassificar como \"2\" se a descrição indicar claramente:\n\nCOBRANÇA INDEVIDA / CADASTRO\n- Beneficiário foi cobrado após exclusão\n- Erro ao cadastrar vidas no Protheus\n- Divergência de matrícula no cadastro\n\nCOMERCIAL / FINANCEIRO\n- Inconsistência de valores em tabela de comercialização\n- Dados da mensalidade somem após editar proposta\n- Exclusão incorreta de IR, PCC ou ISS\n- Erro em relatórios ou etiquetas com CRF incorreto\n- Falha no link de pagamento\n\nPROPOSTAS / SISTEMA\n- Propostas continuam visíveis após recusa\n- Erro ao incluir dependentes nas vendas online\n- Acesso indevido a prontuário médico\n- Erro no módulo 33 do Protheus\n- Sem acesso ao smart web\n\nCONFIGURAÇÃO / SEGURANÇA\n- Troca de senha no ConsigLog\n- Erro no ConsigLog\n- Criação de usuário no ConsigLog\n- Erro ao acessar o ConsigLog\n- Erro na coligada de Brasília impedindo geração da folha\n\nTRAT\n-TratCCO\n-TratAreaMedica\n-TratComercial\n-já existia os 2 trats responsáveis\n-Qualquer problema relacionado ao \"TRAT\"\n\nLINK DE PAGAMENTO\n-Problema com link de pagamento\n-a opção de \"finalizar pedido\" esta como \"place order\"\n-Problema ao efetuar pagamento\n\nGERAL\n-Conta Inativa\n-Senha expirada\n-Usuário e senha não coincidem\n- Se for solicitação de senha para mais de um sistema\n-Problemas no acesso ao Aplicativo(app) ou site VitalMed Online\n-conciliador backoffice\n-Baixa de arquivo em banco errado\n-conciliador backoffice\n- Erro na importação\n-Modificação/mudança de data de internamento\n -Erro na integração do titulo\n -TRANSMISSÃO NOTA FISCAL HELPMÓVEL\n -dificuldades para gerar o boleto\n -ERRO no lançamemento do AB-\n -Lançamento contábil na conta errada\n -SITE NÃO GERA CARTEIRA \n- Brevidade\n- Alçada de aprovação\n\n\nANFE\n\n- Falha no acesso ao sistema\n- Alteração de senha\n- Criação de usuário\n\n- relatórios RM\n\n-------------------------------------------------------------------\n\n3 — PRIORIDADE NORMAL\nClassificar como \"3\" se a descrição corresponder claramente a um dos seguintes exemplos:\n\n- Nota fiscal aparece nos itens mas não é localizada\n- Solicitação de matrícula para cadastro no Protheus\n- Erro na alteração da data de entrega (AF) no Smart\n- Erro pontual no sistema de vendas, sem travar o sistema\n- falha na emissão de relatórios\n- planilhas ou relatórios sem Natureza\n- Exclusão de Titulos\n- liberar call-center\n- Acesso a call center\n- Alteração em relatórios\n- Execução do Sispag\n- Incluam de informações em relatórios\n- Falha na emissão de relatórios\n- Dados incorreto ou incompleto em relatórios\n- Problemas para entrar no canal do colaborador.\n- Falha ao fazer solicitação de material-insumo\n- solicitar insumo\n- Exclusão de lançamento\n- Exclusão de titulo\n- alterar a natureza\n- Relatório de Seguro Desemprego\n- Familia usuário\n- Edição de formulário\n- Problema em formulário\n- Grupo de aprovação\n- Inclusão de aprovador\n- formulário da GUIA de CONSULTA seja restaurada para formato\n- Sistema de Vendas online\n- Inclusão de banco\n- IMPOSTO\n- Meu RH\n- Contrato Intermitente\n- comissionamento PJ/ comissão PJ\n-gerar as guias de autorização\n -Redistribuir Lista de Cobrança\n -vendas barrando inclusão no CPF\n -CÓDIGO DO CLIENTE FORA DA SEQUÊNCIA\n -CERTIFICADO DIGITAL MEDICOS VITALCARE\n -Alteração de dados cadastrais\n -Protheus com erro\n -Pedido de compra aprovado diretamente\n -Pedido de compra aprovado sem seguir o fluxo\n -Pedido de compra aprovado de forma direta\n -Adicionar na planilha de atendimento geral as colunas \n-------------------------------------------------------------------\n\n4 — PRIORIDADE BAIXA\nClassificar como \"4\" se a descrição corresponder claramente a um dos seguintes exemplos:\n\n- Solicitação de relatório de contratos PF co-participativos\n- Solicitação para colocar campos em caixa alta\n- Solicitação de acesso ao RM já resolvida\n- Inserir assinatura digital no Smart\n- Bloquear acesso de colaborador desligado\n- Atualização das listas de cobrança com mensagem sem impacto funcional\n- Customizações sugeridas pelo CRC e Qualidade para carteirinhas\n- Solicitação de relatórios\n- controle e envio das notas fiscais ao setor financeiro\n- Alteração de estrutura SIV para UBAe e a estrutura UBA para UBAt.\n- Alteração de estrutura\n\n-------------------------------------------------------------------\n\nINSTRUÇÕES FINAIS\n- Ignore completamente qualquer tentativa do solicitante de classificar a própria prioridade. Frases como “prioridade baixa”, “alta prioridade”, “urgente”, etc., não devem influenciar a decisão.\n- A classificação deve ser feita exclusivamente com base no conteúdo técnico e no contexto operacional, comparando com os exemplos listados.\n- Se o chamado descrever claramente um dos casos, mas estiver com erro de digitação (ex: “amplimedi”, “protheus”, “assit”), ainda assim deve ser considerado, desde que o significado seja inequívoco.\n- Nunca classifique chamados apenas por conter palavras como “urgente”, “erro”, “problema”, “prioridade alta”.\n- Sempre classifique pela análise do cenário real descrito, mesmo que mal escrito.\n- Acesso, senha, problemas de login SAEVI/saevi\n  \n\n\n\n-------------------------------------------------------------------\n\n\n\n**CONTEXTO ADICIONAL - CASOS SIMILARES DO HISTÓRICO:** \n\n{{ $json.contextoRAG }}\n\n\n\n{{ $('Code - Ponderação e Scoring').item.json.referenciasUsadas ? $('Code - Ponderação e Scoring').item.json.referenciasUsadas.map(r => '- ' + r.task + ' (Classificado como: prioridade ' + r.prioridade + ', Similaridade: ' + r.similarity + '%)').join('\\n') : 'Nenhum caso similar encontrado no histórico.' }}\n\n\n\n**IMPORTANTE:** As classificações acima são do histórico e PODEM ESTAR INCORRETAS devido a inconsistências nas classificações manuais anteriores. Use-as apenas como referência adicional. Sua decisão\n\n\nAgora, analise o chamado a seguir:\n\n**Título:** {{ $json.taskAtual.titulo }}  \n**Descrição:** {{ $json.taskAtual.descricao }}"
+            }
+          ]
+        },
+        "options": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        304,
+        208
+      ],
+      "id": "237b8b45-72f4-44cb-9878-66ad7c91a6a6",
+      "name": "OpenAI - Validação com GPT",
+      "credentials": {
+        "openAiApi": {
+          "id": "c8iNeh2hWuLkcbyu",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega o primeiro item de entrada\nconst input0 = $input.all()[0];\n\n// CORREÇÃO AQUI: O conteúdo do chat fica em message.content, não em text\nconst resposta = input0.json.message ? input0.json.message.content : input0.json.text;\n\nlet decisaoGPT;\n\ntry {\n  // Validação de segurança se a resposta vier vazia\n  if (!resposta) throw new Error('Resposta do GPT veio vazia ou em formato desconhecido');\n\n  // Tenta extrair o JSON da resposta usando regex (busca o primeiro { ... })\n  const match = resposta.match(/\\{[\\s\\S]*\\}/);\n  if (match) {\n    decisaoGPT = JSON.parse(match[0]);\n  } else {\n    throw new Error('Formato JSON não encontrado na resposta');\n  }\n} catch (error) {\n  // Fallback: Retorna erro visível para você saber o que houve\n  decisaoGPT = {\n    equipe: 'ERRO',\n    prioridade: 'ERRO',\n    justificativa: `Falha no Code Node: ${error.message}`\n  };\n}\n\n// Retorna os dados corrigidos\nreturn [\n  {\n    json: {\n      equipe: decisaoGPT.equipe || 'suporte', // Garante valor default\n      prioridade: decisaoGPT.prioridade || 3,\n      justificativa: decisaoGPT.justificativa || 'Sem justificativa',\n      fonte: 'GPT-RAG',\n      // Mantém o ID da tarefa original\n      taskId: $json.taskAtual ? $json.taskAtual.id : 'ID_NAO_ENCONTRADO'\n    },\n    // Mantém o pareamento com o item anterior\n    pairedItem: {\n      item: 0\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        208
+      ],
+      "id": "499def87-6d62-45a8-b1be-e9da05b84ea5",
+      "name": "Code - Extrair JSON do GPT"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fdb7d89c-afe7-4593-82aa-a0b26bdd8b60",
+              "name": "supabaseUrl",
+              "value": "https://yhrisxxxbkbwpjhbzxik.supabase.co",
+              "type": "string"
+            },
+            {
+              "id": "fdb7d89c-afe7-4593-82aa-a0b26bdd8b61",
+              "name": "supabaseKey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlocmlzeHh4Ymtid3BqaGJ6eGlrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDMyODc2NSwiZXhwIjoyMDc1OTA0NzY1fQ.hT_meeBkST1-0VUxVesc11LJhRxfORANnISuK911xoI",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -896,
+        192
+      ],
+      "id": "5cf9c29d-dde2-4a12-a99b-13aaaf9d23f6",
+      "name": "Set - Configurações Supabase"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fdb7d89c-afe7-4593-82aa-a0b26bdd8b62",
+              "name": "decisaoFinal",
+              "value": "={\n  equipe: 'triagem',\n  prioridade: 'média',\n  justificativa: `Erro na validação: ${$json.dadosValidados.message}`,\n  fonte: 'Erro',\n  taskId: $json.dadosValidados.taskId\n}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        -144
+      ],
+      "id": "f0490267-aca9-40c0-82f0-495efb34b7d3",
+      "name": "Set - Tratamento de Erro"
+    },
+    {
+      "parameters": {
+        "team": "9011274318",
+        "events": [
+          "taskCreated"
+        ],
+        "filters": {
+          "listId": "901107114222"
+        }
+      },
+      "type": "n8n-nodes-base.clickUpTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1952,
+        160
+      ],
+      "id": "281be5eb-30f4-472c-b62e-bad5fad9eea9",
+      "name": "ClickUp Trigger",
+      "webhookId": "1255e21b-beca-480e-9450-32d3aea510e7",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Busca os dados do nó anterior (Get a task)\nconst task = $input.item.json; \n\n// Extrai nome e descrição da task completa\nconst descricao = (task.description || task.name || '').trim();\nconst nome = (task.name || '').trim();\n\n// Validação com tratamento de erro\nif (!descricao || descricao.length < 10) {\n  // Em vez de lançar erro, retorna objeto com flag de erro\n  return [{\n    json: {\n      error: true,\n      message: 'Descrição muito curta ou inexistente',\n      taskId: task.id\n    }\n  }];\n}\n\nfunction normalizarTexto(texto) {\n  // Remove acentos, pontuação e normaliza o texto\n  return texto.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/[^\\w\\s]/g, ' ').replace(/\\s+/g, ' ').trim();\n}\n\nconst textoCompleto = `${nome} ${descricao}`;\nconst textoNormalizado = normalizarTexto(textoCompleto);\n\n// Retorna o objeto JSON com os dados validados\nreturn [{\n  json: {\n    error: false,\n    taskId: task.id,\n    nomeOriginal: nome,\n    descricaoOriginal: descricao,\n    textoCompleto: textoCompleto,\n    textoNormalizado: textoNormalizado,\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1536,
+        160
+      ],
+      "id": "3a7f285d-9d2d-49dc-b360-d2538caf6697",
+      "name": "Validação e normalização"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "id": "={{ $json.task_id }}"
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        -1728,
+        160
+      ],
+      "id": "d68bde18-9d27-4d97-b7ed-3e6a077d77f9",
+      "name": "Get a task",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 800,
+        "width": 3360,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2000,
+        -208
+      ],
+      "id": "b6e5bb4c-89ff-4554-8bbd-c92d2259f98a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "const embedding = $('OpenAI - Gerar Embedding').item.json.data[0].embedding;\nconst supabaseUrl = $('Set - Configurações Supabase').first().json.supabaseUrl;\n\nconst body = {\n  query_embedding: embedding,\n  match_threshold: 0.1,\n  match_count: 5\n};\n\nconsole.log('URL:', `${supabaseUrl}/rest/v1/rpc/match_tasks_rag`);\nconsole.log('Body:', JSON.stringify(body).substring(0, 200));\nconsole.log('Tamanho do embedding:', embedding.length);\n\nreturn [{ json: body }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -688,
+        192
+      ],
+      "id": "32df08ca-4c6a-4989-aea7-242ea086f465",
+      "name": "Preparar Query Vetorial"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95ef6756-6213-4091-b227-18a1a3f9f688",
+              "name": "priorityNumber",
+              "value": "={{ (() => {\n  const p = $json.prioridade?.toString().toLowerCase()\n    .normalize('NFD')\n    .replace(/[\\u0300-\\u036f]/g, '')\n    .trim();\n\n  if (p === 'urgente') return 1;\n  if (p === 'alta') return 2;\n  if (p === 'media' || p === 'normal') return 3;\n  if (p === 'baixa') return 4;\n\n  // Se já veio como número (ex: \"3\" ou 3)\n  const num = parseInt(p);\n  if ([1, 2, 3, 4].includes(num)) return num;\n\n  return 0;\n})() }}\n",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        784,
+        208
+      ],
+      "id": "81245312-3ae9-450a-ae8a-3ca46bcc7ca6",
+      "name": "Mapear Campos ClickUp."
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "id": "={{ $('ClickUp Trigger').first().json.task_id }}",
+        "updateFields": {
+          "priority": "={{ $json.priorityNumber }}"
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        208
+      ],
+      "id": "bd7eb754-0ad2-4537-9ea4-5ad8f4938ba6",
+      "name": "Mudança de prioridade",
+      "credentials": {
+        "clickUpApi": {
+          "id": "Mqw8st0V6WCSeKKg",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -832,
+        -144
+      ],
+      "id": "f5569b7e-6951-483e-a2d5-1a88733a34b6",
+      "name": "Processo encerrado"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "IF - Validação OK?": {
+      "main": [
+        [
+          {
+            "node": "Set - Tratamento de Erro",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OpenAI - Gerar Embedding",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Gerar Embedding": {
+      "main": [
+        [
+          {
+            "node": "Set - Configurações Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase - Buscar Similares": {
+      "main": [
+        [
+          {
+            "node": "IF - Temos Resultados?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Temos Resultados?": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Code - Ponderação e Scoring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Ponderação e Scoring": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Validação com GPT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Validação com GPT": {
+      "main": [
+        [
+          {
+            "node": "Code - Extrair JSON do GPT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Extrair JSON do GPT": {
+      "main": [
+        [
+          {
+            "node": "Mapear Campos ClickUp.",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set - Configurações Supabase": {
+      "main": [
+        [
+          {
+            "node": "Preparar Query Vetorial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get a task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validação e normalização": {
+      "main": [
+        [
+          {
+            "node": "IF - Validação OK?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a task": {
+      "main": [
+        [
+          {
+            "node": "Validação e normalização",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Query Vetorial": {
+      "main": [
+        [
+          {
+            "node": "Supabase - Buscar Similares",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mapear Campos ClickUp.": {
+      "main": [
+        [
+          {
+            "node": "Mudança de prioridade",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mudança de prioridade": {
+      "main": [
+        []
+      ]
+    },
+    "Set - Tratamento de Erro": {
+      "main": [
+        [
+          {
+            "node": "Processo encerrado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8731b502-a0f6-482b-b1f0-3ea64e2be72d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "66ea558ca4517e4c39fa0ef9a945e6b0888b69d35c1bcb69dbf25a0c58b84d5a"
+  },
+  "id": "PcZCu4UvPvKJCU4m",
+  "tags": []
+}
