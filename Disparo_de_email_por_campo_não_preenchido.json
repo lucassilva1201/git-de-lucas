@@ -1,0 +1,101 @@
+{
+  "name": "Disparo de email por campo não preenchido",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "\tSELECT \n    BA1_MATRIC AS MATRICULA,\n    BA1_NOMUSR AS NOME_BENEFICIARIO,\n\tBA1_CPFUSR AS CPF,\n    BA1_CONEMP AS CONTRATO,\n    BA1_SUBCON AS SUBCONTRATO,\n    BA1_TXCOOP AS TAXA_COPART,\n\tBA1_CODEMP AS COD_EMP\nFROM BA1010\n     WHERE \n\t  BA1_CONEMP = '000000000208' \n\t  AND BA1_SUBCON = '000000016'\n      AND (BA1_TXCOOP IS NULL OR BA1_TXCOOP = 0) \n      AND D_E_L_E_T_ = ' '\n\t  AND BA1_DATBLO = ' '\n\t  AND BA1_CODEMP = '0003'"
+      },
+      "type": "n8n-nodes-base.microsoftSql",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        80
+      ],
+      "id": "6eaa3fc6-aad5-4f38-a101-e5de63cf2cdd",
+      "name": "Microsoft SQL",
+      "credentials": {
+        "microsoftSql": {
+          "id": "n52UfwAfxLONZUNa",
+          "name": "HOMO 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        80
+      ],
+      "id": "6e88f952-8a9d-477f-b329-d74c99cdc70a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "lucassantossilva120198@gmail.com",
+        "subject": "Alerta!!!",
+        "message": "Teste! ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        640,
+        80
+      ],
+      "id": "daebc74c-7fa1-43d6-898d-36e97f962f1c",
+      "name": "Send a message",
+      "webhookId": "1b8b3429-6bcd-4e79-af18-8ea2cf9f234c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "I2H7b3bxMhvMEja2",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Microsoft SQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Microsoft SQL": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7200e3fa-ba5f-4e5e-a596-ab2954fd6d5a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e2e400441824b6db24f6af0c9b70e2d924e9d21f9a10e30b8b4be3b81da7dbb1"
+  },
+  "id": "LRZeXLQVkN84MeI7",
+  "tags": []
+}
