@@ -1,6 +1,6 @@
 # Portfólio de Automações e Integrações ERP
 
-Repositório destinado à demonstração de fluxos de automação utilizando **n8n**, **JS** e **SQL Server**, focados em otimização de processos e integridade de dados no ecossistema Protheus.
+Repositório destinado à demonstração de fluxos de automação utilizando **n8n**, **JS** e **SQL Server**, focados em otimização de processos.
 
 ---
 
