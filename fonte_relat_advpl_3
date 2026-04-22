@@ -1,0 +1,143 @@
+
+#INCLUDE 'PROTHEUS.CH'
+#include "prtopdef.ch"
+#include "rwmake.ch"
+#include "topconn.ch"
+#Include "totvs.ch"
+
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} MPLSR113
+RELATÓRIO DE CONTRATOS PJ
+@author  LUCAS SANTOS
+@since   25/08/2025
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+
+Static Function FWFilialNome(cCodigoFilial)
+    Local cCidade := ""
+
+    Do Case
+        Case cCodigoFilial == "01"
+            cCidade := "SALVADOR"
+        Case cCodigoFilial == "07"
+            cCidade := "FEIRA"
+        Case cCodigoFilial == "10"
+            cCidade := "SAO LUIS"
+        Case cCodigoFilial == "14"
+            cCidade := "ARACAJU"
+        Case cCodigoFilial == "16"
+            cCidade := "CUIABA"     
+        Otherwise
+            cCidade := "" 
+    EndCase
+
+    Return cCidade
+
+USER FUNCTION MPLSR113()
+
+	Local oReport	 :=NIL
+	Local aPergs	:= {}
+	Local aResps	:= {}
+    Local aOpcoes := {"1- Proteção Total", "2- Area Protegida", "3- Clientes Assistidos", "4- Vitalmed Online", "5- OMT Vitalfone", "6- Todos"}
+    
+	AADD( aPergs, {1,"Grupo empresa",		Space(TamSx3("BT5_CODIGO")[1]),,,,,50,.F.} )
+	AADD( aPergs, {1,"Contrato",		Space(TamSx3("BQC_NUMCON")[1]),,,,,50,.F.} )
+	AADD( aPergs, {1,"Subcontrato",		Space(TamSx3("BT5_NUMCON")[1]),,,,,50,.F.} )
+	AADD( aPergs, {1,"Data Inicial ",    SToD(""),,,,,100,.F.})
+    AADD( aPergs, {1,"Data Final",   SToD(""),,,,,100,.F.})
+	AADD( aPergs, {2,"Status",		"",aOpcoes			   	  ,50,"",.F.} )
+	AADD( aPergs, {1,"Pasta p/ salvar Excel",			Space(100),,,,,100,.F.} )
+
+
+	If Parambox (aPergs, "Parametros do Relatorio",@aResps,,,,,,,,.T.,.T.)
+		oReport := ReportDef(aResps)
+	ENDIF
+
+return NIL
+
+Static Function ReportDef(aResps)
+    Local cFilialCodigo := AllTrim(cEmpAnt) 
+    Local cFilialNome   := FWFilialNome(cFilialCodigo) 
+    Local oFWMsExcel    := FWMSExcel():New()
+    Local cQry          := ""
+    Local cDir          := aResps[7]
+    Local cArquivo      := "Rel_ContratosPJ.xls"
+    Local dDataIni      := aResps[4]
+    Local dDataFim      := aResps[5]
+    Local cSave         := AllTrim(aResps[7])
+    If Empty(cSave)
+        cSave := "C:\relatorio\"
+    EndIf
+    If Right(cSave,1) != "\"
+        cSave += "\"
+    EndIf
+    cSave += cArquivo
+    // Tratamento para garantir que o nome da filial seja passado corretamente para a procedure SQL
+    If Empty(cFilialNome) .Or. cFilialNome == "  "
+        cFilialNome := "" // Garante que seja uma string vazia se não houver mapeamento
+    EndIf
+
+    cQry := "EXEC PR_CONTRATOSPJ " + ;
+           "'" + AllTrim(mv_par01) + "','" + ;
+           AllTrim(mv_par02) + "','" + ;
+           AllTrim(mv_par03) + "','" + ;
+           DToS(dDataIni)    + "','" + ;
+           DToS(dDataFim)    + "','" + ;
+           AllTrim(substr(mv_par06,1,1)) + "','" + ;
+           cFilialNome           + "'"
+
+    MemoWrite("C:\ANSTISS\mplsr113.sql", cQry)
+    TCQUERY cQry NEW ALIAS "QRY"
+
+    DBSelectArea("QRY")
+    DbGoTop()
+
+   oFWMsExcel:AddworkSheet("ContratosPJ")
+   oFWMsExcel:AddTable("ContratosPJ","ContratosPJ", .F.) 
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Modalidade",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Cliente",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Nome do Cliente",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Operadora",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Grupo Empresa",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Contrato",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Nome do Contrato",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Data de Inclusão",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Sub Contrato",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Descrição do Contrato",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Quantidade de",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Quantidade Ate",1)
+   oFWMsExcel:AddColumn("ContratosPJ","ContratosPJ","Filial",1)
+
+   While !QRY->(EoF())
+      oFWMsExcel:AddRow("ContratosPJ","ContratosPJ",{ ;
+         QRY->MODALIDADE,;
+         QRY->CLIENTE,;
+         QRY->A1_NOME,;
+         QRY->BT5_CODINT,;
+         QRY->BT5_CODIGO,;
+         QRY->BQC_NUMCON,;
+         QRY->BT5_NOME,;
+         QRY->DATAINCLUSAO,;
+         QRY->BQC_SUBCON,;
+         QRY->BQC_DESCRI,;
+         QRY->QTDE,;
+         QRY->QTDEATE,;
+         cFilialNome;
+      })
+
+      QRY->(DbSkip())
+   EndDo
+
+    oFWMsExcel:Activate()
+    oFWMsExcel:GetXMLFile(cSave)
+
+    QRY->(DbCloseArea()) 
+If !ApOleClient("MsExcel")
+   ShowHelpDlg("ERRO", {"Microsoft Office Excel não está instalado."}, 5, ;
+               {"Contacte o administrador do sistema e solicite a instalação do Microsoft Office Excel em seu computador."}, 5)
+    ShellExecute("open", "explorer.exe", "", cDir, 1)
+EndIf
+    ShellExecute("open",cSave,"","",3)
+    Return
