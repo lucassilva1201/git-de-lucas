@@ -1,0 +1,124 @@
+#include "protheus.ch"
+
+//-------------------------------------------------------------------
+/*/MPLSR117
+Relatorio: Naturezas incorretas
+@author  LUCAS SANTOS
+@since   06/01/2026
+@version 1.0
+/*/
+//-------------------------------------------------------------------
+
+User Function MPLSR117()
+    Local aPergs := {}
+    Local aResps := {}
+
+    AAdd(aPergs, {1, "Codigo da Empresa:", Space(4),,,,, 10, .F.})
+    AAdd(aPergs, {1, "Natureza:", Space(10),,,,, 40, .F.})
+
+    If ParamBox(aPergs, "Parametros do Relatorio", @aResps,,,,,,,, .T., .T.)
+        ReportDef(aResps):PrintDialog()
+    EndIf
+
+Return Nil
+
+
+//----------------------------------------------------------------------
+// Define a estrutura do TReport seguindo o padrao corporativo
+//----------------------------------------------------------------------
+Static Function ReportDef(aResps)
+    Local oReport   := NIL
+    Local oSection  := NIL
+    Local cAliasTop := ""
+    Local cNomArq   := "MPLSR117" + DToS(Date()) + StrTran(Time(), ":", "")
+    Local cTitulo   := "RELATORIO DE NATUREZAS INCORRETAS"
+
+    oReport := TReport():New(cNomArq, cTitulo, "", ;
+                 {|oReport| ReportPrint(oReport, @cAliasTop, aResps)}, ;
+                 "Exibe clientes com naturezas divergentes para o CODEMP informado.")
+    oReport:SetLandscape()
+
+    oSection := TRSection():New(oReport, cTitulo, {"BA3", "SA1"})
+    TRCell():New(oSection, "CODEMP",  cAliasTop, "CODIGO DA EMPRESA",,,, {|| (cAliasTop)->CODEMP})
+    TRCell():New(oSection, "CODCLI",  cAliasTop, "CODIGO DO CLIENTE",,,, {|| (cAliasTop)->CODCLI})
+    TRCell():New(oSection, "NOMECLI", cAliasTop, "NOME CLIENTE",,,, {|| (cAliasTop)->NOMECLI})
+    TRCell():New(oSection, "NATURE",  cAliasTop, "NATUREZA",,,, {|| (cAliasTop)->NATUREZA})
+    TRCell():New(oSection, "TIPPAG",  cAliasTop, "TIPO PAGTO",,,, {|| (cAliasTop)->TIPPAG})
+    TRCell():New(oSection, "GRPCOB",  cAliasTop, "GRUPO COBR",,,, {|| (cAliasTop)->GRPCOB})
+    TRCell():New(oSection, "FORPAG",  cAliasTop, "FORMA PAGTO",,,, {|| (cAliasTop)->FORPAG})
+    TRCell():New(oSection, "DATBLO",  cAliasTop, "DATA DE BLOQUEIO",,,, {|| (cAliasTop)->DATBLO})
+
+Return oReport
+
+
+//----------------------------------------------------------------------
+// Executa a consulta e imprime no relatorio
+//----------------------------------------------------------------------
+Static Function ReportPrint(oReport, cAliasTop, aResps)
+    Local oSection       := oReport:Section(1)
+    Local cQuery         := ""
+    Local cCodEmp        := AllTrim(If(Len(aResps) >= 1, aResps[1], ""))
+    Local cNaturezaParam := AllTrim(If(Len(aResps) >= 2, aResps[2], ""))
+    Local cNatureza      := cNaturezaParam
+    Local lNaturezaDif   := .T.
+
+    If Empty(cCodEmp) .or. Empty(cNaturezaParam)
+        MsgStop("Informe CODEMP e Natureza para emitir o relatorio.", "Parametros obrigatorios")
+        Return
+    EndIf
+
+    Do Case
+    Case Left(cNaturezaParam, 1) == "="
+        lNaturezaDif := .F.
+        cNatureza    := AllTrim(SubStr(cNaturezaParam, 2))
+    Case Left(cNaturezaParam, 1) == "!"
+        cNatureza    := AllTrim(SubStr(cNaturezaParam, 2))
+    Otherwise
+        cNatureza := cNaturezaParam
+    EndCase
+
+    If Empty(cNatureza)
+        MsgStop("Natureza invalida.", "Parametros obrigatorios")
+        Return
+    EndIf
+
+    cQuery  := "SELECT " + CRLF
+    cQuery += "    BA3.BA3_CODEMP AS CODEMP, " + CRLF
+    cQuery += "    BA3.BA3_CODCLI AS CODCLI, " + CRLF
+    cQuery += "    SA1.A1_NOME    AS NOMECLI, " + CRLF
+    cQuery += "    BA3.BA3_NATURE AS NATUREZA, " + CRLF
+    cQuery += "    BA3.BA3_TIPPAG AS TIPPAG, " + CRLF
+    cQuery += "    BA3.BA3_GRPCOB AS GRPCOB, " + CRLF
+    cQuery += "    BA3.BA3_FORPAG AS FORPAG, " + CRLF
+    cQuery += "    BA3.BA3_DATBLO AS DATBLO " + CRLF
+    cQuery += "FROM BA3010 BA3 " + CRLF
+    cQuery += "INNER JOIN SA1010 SA1 " + CRLF
+    cQuery += "        ON (SA1.A1_COD = BA3.BA3_CODCLI " + CRLF
+    cQuery += "        AND SA1.D_E_L_E_T_ = '') " + CRLF
+    cQuery += "WHERE BA3.D_E_L_E_T_ = '' " + CRLF
+    cQuery += "  AND BA3.BA3_CODEMP = '" + cCodEmp + "' " + CRLF
+    cQuery += "  AND BA3.BA3_DATBLO = '' " + CRLF
+    cQuery += "  AND BA3.BA3_GRPCOB <> '999' " + CRLF
+
+    If lNaturezaDif
+        cQuery += "  AND BA3.BA3_NATURE <> '" + cNatureza + "' " + CRLF
+    Else
+        cQuery += "  AND BA3.BA3_NATURE = '" + cNatureza + "' " + CRLF
+    EndIf
+
+    cQuery += "ORDER BY BA3.BA3_CODCLI " + CRLF
+
+    //MemoWrit("C:\TEMP\MPLSR117.SQL", cQuery)
+
+    cAliasTop := MPSysOpenQuery(cQuery)
+
+    oSection:Init()
+    While (cAliasTop)->(!EOF())
+        oSection:PrintLine()
+        (cAliasTop)->(DbSkip())
+    EndDo
+
+    (cAliasTop)->(DbCloseArea())
+    oSection:Finish()
+
+Return
