@@ -4,7 +4,6 @@
 ================================================================================
   Programa  : CTBR013
   Descricao : Comprovante Anual de Retencao de CSLL, COFINS, PIS/PASEP e IRRF
-  Autor: Lucas Santos Silva
   Base Legal: Lei no 10.833/2003, Art. 30 / IN SRF 119/2000
   Data      : 2025
   Obs       : Gera dois comprovantes por fornecedor em paginas separadas:
@@ -55,8 +54,8 @@ Static Function _GeraRelatorio(cAno, cCNPJ)
 
     // -- Monta Query ---------------------------------------------------------
     cQuery := "SELECT E2_FILIAL AS FILIAL, "
-    cQuery += "  (SELECT DISTINCT CS2_CNPJ FROM " + RetSQLName("CS2") + " WHERE D_E_L_E_T_ <> '*' AND CS2_CODEMP = '01' AND CS2_CODFIL = SE2.E2_FILIAL) AS FONTE_CNPJ, "
-    cQuery += "  (SELECT TOP 1 CS2_NOMEEM FROM " + RetSQLName("CS2") + " WHERE D_E_L_E_T_ <> '*' AND CS2_CODEMP = '01' AND CS2_CODFIL = SE2.E2_FILIAL) AS FONTE_NOME, "
+    cQuery += "  (SELECT DISTINCT CS2_CNPJ FROM " + RetSQLName("CS2") + " WHERE D_E_L_E_T_ <> '*' AND CS2_CODEMP = '" + cEmpAnt + "' AND CS2_CODFIL = SE2.E2_FILIAL) AS FONTE_CNPJ, "
+    cQuery += "  (SELECT TOP 1 CS2_NOMEEM FROM " + RetSQLName("CS2") + " WHERE D_E_L_E_T_ <> '*' AND CS2_CODEMP = '" + cEmpAnt + "' AND CS2_CODFIL = SE2.E2_FILIAL) AS FONTE_NOME, "
     cQuery += "  A2_CGC, A2_NOME, MONTH(E2_EMISSAO) AS MES, "
     cQuery += "  (E2_VALOR+E2_VRETPIS+E2_VRETCOF+E2_VRETCSL+E2_VRETIRF) AS VALOR_BRUTO, "
     cQuery += "  SUM((E2_VRETPIS+E2_VRETCOF+E2_VRETCSL)) AS VALOR_RETIDO_PCC, "
