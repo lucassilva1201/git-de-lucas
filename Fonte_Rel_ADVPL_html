@@ -1,0 +1,327 @@
+#Include "Protheus.ch"
+#Include "TopConn.ch"
+/*
+================================================================================
+  Programa  : CTBR013
+  Descricao : Comprovante Anual de Retencao de CSLL, COFINS, PIS/PASEP e IRRF
+  Autor: Lucas Santos Silva
+  Base Legal: Lei no 10.833/2003, Art. 30 / IN SRF 119/2000
+  Data      : 2025
+  Obs       : Gera dois comprovantes por fornecedor em paginas separadas:
+              Pagina 1 - CSLL, COFINS e PIS/PASEP (cod. 5952)
+              Pagina 2 - IRRF Pessoa Juridica     (cod. 1708)
+================================================================================
+*/
+
+User Function CTBR013()
+
+    Local aArea   := GetArea()
+    Local aPergs  := {}
+    Local cAno    := Space(4)
+    Local cCNPJ   := Space(14)
+
+    // Parametros via ParamBox
+    aAdd(aPergs, {1, "Ano-Calendario ", cAno,  "@!",  "!Empty(MV_PAR01)", "", ".T.", 50, .F.})
+    aAdd(aPergs, {1, "CNPJ Fornecedor", cCNPJ, "@!",  "!Empty(MV_PAR02)", "", ".T.", 80, .T.})
+
+    If ParamBox(aPergs, "Comprovante Anual de Retencao")
+        _GeraRelatorio(MV_PAR01, MV_PAR02)
+    EndIf
+
+    RestArea(aArea)
+
+Return
+
+// ----------------------------------------------------------------------------
+// Monta a query, executa e chama a impressao
+// ----------------------------------------------------------------------------
+Static Function _GeraRelatorio(cAno, cCNPJ)
+
+    Local cQuery      := ""
+    Local cAliasQry   := ""
+    Local aDadosPCC   := {}
+    Local aDadosIR    := {}
+    Local cNomeForn   := ""
+    Local cCNPJForn   := ""
+    Local cNomeFonte  := ""
+    Local cCNPJFonte  := ""
+    Local nMes        := 0
+    Local nValor      := 0
+    Local nValPCC     := 0
+    Local nValIR      := 0
+
+    cAno  := AllTrim(cValToChar(cAno))
+    cCNPJ := StrTran(StrTran(StrTran(AllTrim(cCNPJ), ".", ""), "/", ""), "-", "")
+
+    // -- Monta Query ---------------------------------------------------------
+    cQuery := "SELECT E2_FILIAL AS FILIAL, "
+    cQuery += "  (SELECT DISTINCT CS2_CNPJ FROM " + RetSQLName("CS2") + " WHERE D_E_L_E_T_ <> '*' AND CS2_CODEMP = '01' AND CS2_CODFIL = SE2.E2_FILIAL) AS FONTE_CNPJ, "
+    cQuery += "  (SELECT TOP 1 CS2_NOMEEM FROM " + RetSQLName("CS2") + " WHERE D_E_L_E_T_ <> '*' AND CS2_CODEMP = '01' AND CS2_CODFIL = SE2.E2_FILIAL) AS FONTE_NOME, "
+    cQuery += "  A2_CGC, A2_NOME, MONTH(E2_EMISSAO) AS MES, "
+    cQuery += "  (E2_VALOR+E2_VRETPIS+E2_VRETCOF+E2_VRETCSL+E2_VRETIRF) AS VALOR_BRUTO, "
+    cQuery += "  SUM((E2_VRETPIS+E2_VRETCOF+E2_VRETCSL)) AS VALOR_RETIDO_PCC, "
+    cQuery += "  SUM(E2_VRETIRF) AS VALOR_RETIDO_IR "
+    cQuery += "FROM " + RetSQLName("SE2") + " SE2 "
+    cQuery += "JOIN " + RetSQLName("SA2") + " SA2 ON (A2_COD = E2_FORNECE AND A2_LOJA = E2_LOJA) "
+    cQuery += "WHERE YEAR(SE2.E2_EMISSAO) = '" + cAno + "' "
+    cQuery += "  AND SA2.A2_CGC = '" + cCNPJ + "' "
+    cQuery += "  AND SE2.E2_TIPO IN ('NF','RC') "
+    cQuery += "  AND SE2.E2_IRRF > 0 "
+    cQuery += "  AND SE2.D_E_L_E_T_ <> '*' "
+    cQuery += "  AND SA2.D_E_L_E_T_ <> '*' "
+    cQuery += "  AND E2_NATUREZ <> '410208007' "
+    cQuery += "GROUP BY E2_FILIAL, A2_CGC, A2_NOME, E2_EMISSAO, SE2.E2_VALOR, E2_CODRET, E2_VRETPIS, E2_VRETCOF, E2_VRETCSL, E2_VRETIRF "
+    cQuery += "ORDER BY E2_EMISSAO "
+
+    cAliasQry := MPSysOpenQuery(cQuery)
+
+    If cAliasQry == Nil .Or. (cAliasQry)->(Eof())
+        MsgAlert("Nenhum registro encontrado para os parametros informados.", "Atencao")
+        If !Empty(cAliasQry)
+            (cAliasQry)->(dbCloseArea())
+        EndIf
+        Return
+    EndIf
+
+    // -- Dados da fonte pagadora (baseado na query/filial) -------------------
+    cNomeFonte := AllTrim((cAliasQry)->FONTE_NOME)
+    cCNPJFonte := AllTrim((cAliasQry)->FONTE_CNPJ)
+
+    // -- Dados do fornecedor (primeira linha) --------------------------------
+    cNomeForn := AllTrim((cAliasQry)->A2_NOME)
+    cCNPJForn := AllTrim((cAliasQry)->A2_CGC)
+
+    // -- Percorre e separa os dados por tipo de retencao --------------------
+    Do While !(cAliasQry)->(Eof())
+
+        nMes    := (cAliasQry)->MES
+        nValor  := (cAliasQry)->VALOR_BRUTO
+        nValPCC := (cAliasQry)->VALOR_RETIDO_PCC
+        nValIR  := (cAliasQry)->VALOR_RETIDO_IR
+
+        If nValPCC > 0
+            aAdd(aDadosPCC, {nMes, "5952", nValor, nValPCC})
+        EndIf
+
+        If nValIR > 0
+            aAdd(aDadosIR, {nMes, "1708", nValor, nValIR})
+        EndIf
+
+        (cAliasQry)->(dbSkip())
+    EndDo
+
+    (cAliasQry)->(dbCloseArea())
+
+    // -- Agrupa por mes -----------------------------------------------------
+    aDadosPCC := _AgrupaMes(aDadosPCC)
+    aDadosIR  := _AgrupaMes(aDadosIR)
+
+    // -- Imprime ------------------------------------------------------------
+    _ImprimeComprovante(cAno, cNomeFonte, cCNPJFonte, cNomeForn, cCNPJForn, aDadosPCC, aDadosIR)
+
+Return
+
+// ----------------------------------------------------------------------------
+// Agrupa linhas do mesmo mes somando valores
+// ----------------------------------------------------------------------------
+Static Function _AgrupaMes(aLinha)
+
+    Local aResult := {}
+    Local i       := 0
+    Local j       := 0
+    Local lAchou  := .F.
+
+    For i := 1 To Len(aLinha)
+        lAchou := .F.
+        For j := 1 To Len(aResult)
+            If aResult[j][1] == aLinha[i][1]
+                aResult[j][3] += aLinha[i][3]
+                aResult[j][4] += aLinha[i][4]
+                lAchou := .T.
+                Exit
+            EndIf
+        Next j
+        If !lAchou
+            aAdd(aResult, {aLinha[i][1], aLinha[i][2], aLinha[i][3], aLinha[i][4]})
+        EndIf
+    Next i
+
+    aSort(aResult,,, {|x, y| x[1] < y[1]})
+
+Return aResult
+
+// ----------------------------------------------------------------------------
+// Gera o arquivo exportável utilizando HTML5 via Chromium (tSimpleEditor)
+// ----------------------------------------------------------------------------
+Static Function _ImprimeComprovante(cAno, cNomeFonte, cCNPJFonte, cNomeForn, cCNPJForn, aDadosPCC, aDadosIR)
+
+    Local cNomeUnico := "COMPROVANTE_IR_" + cAno + "_" + AllTrim(cCNPJForn)
+    Local cPastaDest := GetTempPath()
+    Local cArqCli    := cPastaDest + cNomeUnico + ".html"
+    Local cHtml      := ""
+
+    If Len(aDadosPCC) == 0 .And. Len(aDadosIR) == 0
+        MsgAlert("Não foram encontrados valores para este ano/CNPJ.", "Sem dados")
+        Return
+    EndIf
+
+    // 1) Topo do HTML + CSS Embutido (Mimetizando bordas reais da Receita Federal)
+    cHtml := '<!DOCTYPE html><html><head><meta charset="windows-1252">'
+    cHtml += '<style>'
+    cHtml += 'body { font-family: Arial, sans-serif; font-size: 11px; margin: 0; padding: 15px; }'
+    cHtml += '@media print { body { padding: 0; } }' // Ajuste fino para a impressão do Chrome ficar lisa!
+    cHtml += 'table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }'
+    cHtml += 'th, td { border: 1px solid #111; padding: 6px; text-align: left; }'
+    cHtml += '.center { text-align: center; }'
+    cHtml += '.right { text-align: right; }'
+    cHtml += '.secao-titulo { font-weight: bold; background-color: #ededed; font-size: 11px; text-transform: uppercase; }'
+    cHtml += '.quebra { page-break-after: always; }'
+    cHtml += '</style></head><body>'
+
+    // 2) Insere Pagina 1
+    If Len(aDadosPCC) > 0
+        cHtml += _GeraHtmlComprovante("PCC", cAno, cNomeFonte, cCNPJFonte, cNomeForn, cCNPJForn, aDadosPCC)
+    EndIf
+
+    // Quebra de página se o Fornecedor render As Duas Paginas!
+    If Len(aDadosPCC) > 0 .And. Len(aDadosIR) > 0
+        cHtml += '<div class="quebra"></div>'
+    EndIf
+
+    // 3) Insere Pagina 2
+    If Len(aDadosIR) > 0
+        cHtml += _GeraHtmlComprovante("IR", cAno, cNomeFonte, cCNPJFonte, cNomeForn, cCNPJForn, aDadosIR)
+    EndIf
+
+    cHtml += '</body></html>'
+
+    // 4) ABORDAGEM DE OURO: Escreve o HTML puro na pasta temporária.
+    MemoWrite(cArqCli, cHtml)
+    
+    // 5) Abre o Chrome/Edge automaticamente! O usuário só dá "Ctrl+P" e Salva em PDF nativamente na maquina.
+    ShellExecute("Open", cArqCli, "", cPastaDest, 1)
+
+Return
+
+// ----------------------------------------------------------------------------
+// Constroi os Quadrantes HTML idênticos à ficha oficial
+// ----------------------------------------------------------------------------
+Static Function _GeraHtmlComprovante(cTipo, cAno, cNomeFonte, cCNPJFonte, cNomeForn, cCNPJForn, aDados)
+
+    Local cHtml := ""
+    Local cTitulo1, cTitulo2, cBase, cCol3, cCol4, i
+    // --- LÓGICA DE CARREGAMENTO DO LOGOTIPO ---
+    Local cLogoFile := GetSrvProfString('Startpath', '') + "LOGOVIT.BMP"
+    Local cLogoB64  := ""
+    Local cLogoExt  := "bmp"
+    
+    // Se o arquivo existir fisicamente no Servidor Protheus, convertemos o binário pra Texto! (Base64)
+    If File(cLogoFile)
+        cLogoB64 := Encode64(MemoRead(cLogoFile))
+        cLogoExt := Lower(SubStr(cLogoFile, RAt(".", cLogoFile) + 1))
+    EndIf
+
+    If cTipo == "PCC"
+        cTitulo1  := "COMPROVANTE ANUAL DE RETENÇÃO DE"
+        cTitulo2  := "CSLL, COFINS E PIS/PASEP (Lei nº 10.833/2003, art. 30)"
+        cBase     := "Aprovado pela IN/SRF nº 459/2004"
+        cCol3     := "VALOR PAGO"
+        cCol4     := "VALOR RETIDO"
+    Else
+        cTitulo1  := "COMPROVANTE ANUAL DE RENDIMENTOS PAGOS OU"
+        cTitulo2  := "CREDITADOS E DE RETENÇÃO DE IRRF - PESSOA JURÍDICA"
+        cBase     := "Aprovado pela IN/SRF nº 119/2000"
+        cCol3     := "RENDIMENTO (R$)"
+        cCol4     := "IMPOSTO RETIDO (R$)"
+    EndIf
+
+    // Bloco 0 (Topo Cabecalho RFB)
+    cHtml += '<table><tr>'
+    
+    If !Empty(cLogoB64)
+        // Se pegou a imagem, monta a tag embutindo os pixels da Base64 e controlando o tamanho via CSS!
+        cHtml += '<td width="25%" class="center"><br/><img src="data:image/' + cLogoExt + ';base64,' + cLogoB64 + '" style="max-height:60px; max-width: 140px; margin-bottom:5px;" /></td>'
+    Else
+        // Se a logo sumiu do server, processa normal como a RFB
+        cHtml += '<td width="25%" class="center"><br/><br/><b>Ministério da Fazenda</b><br/>Secretaria da RFB</td>'
+    EndIf
+
+    cHtml += '<td width="75%" class="center"><h3>' + cTitulo1 + '<br/>' + cTitulo2 + '</h3>Ano-calendário de <b>' + cAno + '</b></td>'
+    cHtml += '</tr></table>'
+
+    // Bloco 1 (Fonte)
+    cHtml += '<table><tr><td colspan="2" class="secao-titulo">1. FONTE PAGADORA</td></tr>'
+    cHtml += '<tr><td width="70%">Nome<br/><b>' + cNomeFonte + '</b></td><td width="30%">CNPJ<br/><b>' + _FmtCNPJ(cCNPJFonte) + '</b></td></tr></table>'
+
+    // Bloco 2 (Fornecedor)
+    cHtml += '<table><tr><td colspan="2" class="secao-titulo">2. ' + IIf(cTipo=="PCC", "PESSOA JURÍDICA FORNECEDORA", "PESSOA JURÍDICA BENEFICIÁRIA") + '</td></tr>'
+    cHtml += '<tr><td width="30%">CNPJ<br/><b>' + _FmtCNPJ(cCNPJForn) + '</b></td><td width="70%">Nome completo<br/><b>' + cNomeForn + '</b></td></tr></table>'
+
+    // Bloco 3 (Linhas IR)
+    cHtml += '<table><tr><td colspan="' + IIf(cTipo=="PCC", "3", "4") + '" class="secao-titulo">3. ' + IIf(cTipo=="PCC", "RELAÇÃO DE PAGAMENTOS", "RENDIMENTO E IMPOSTO RETIDO NA FONTE") + '</td></tr>'
+    cHtml += '<tr>'
+    If cTipo == "PCC"
+        cHtml += '<th class="center" width="30%">MÊS CORRENTE</th><th class="right" width="35%">' + cCol3 + '</th><th class="right" width="35%">' + cCol4 + '</th>'
+    Else
+        cHtml += '<th class="center" width="20%">MÊS</th><th width="50%">DESCRIÇÃO DO RENDIMENTO</th><th class="right" width="15%">' + cCol3 + '</th><th class="right" width="15%">' + cCol4 + '</th>'
+    EndIf
+    cHtml += '</tr>'
+    
+    For i := 1 To Len(aDados)
+        cHtml += '<tr>'
+        If cTipo == "PCC"
+            cHtml += '<td class="center">' + _NomeMes(aDados[i][1]) + '</td>'
+            cHtml += '<td class="right">' + Transform(aDados[i][3], "@E 999,999,999.99") + '</td>'
+            cHtml += '<td class="right">' + Transform(aDados[i][4], "@E 999,999,999.99") + '</td>'
+        Else
+            cHtml += '<td class="center">' + _NomeMes(aDados[i][1]) + '</td>'
+            cHtml += '<td>Remuneração de serviços profissionais</td>'
+            cHtml += '<td class="right">' + Transform(aDados[i][3], "@E 999,999,999.99") + '</td>'
+            cHtml += '<td class="right">' + Transform(aDados[i][4], "@E 999,999,999.99") + '</td>'
+        EndIf
+        cHtml += '</tr>'
+    Next i
+    cHtml += '</table>'
+
+    // Bloco 4 (Complementos)
+    cHtml += '<table><tr><td class="secao-titulo">4. INFORMAÇÕES COMPLEMENTARES</td></tr>'
+    cHtml += '<tr><td height="50"></td></tr></table>'
+
+    // Bloco 5 (Validacao/Assinatura)
+    cHtml += '<table><tr><td colspan="3" class="secao-titulo">5. RESPONSÁVEL PELAS INFORMAÇÕES</td></tr>'
+    cHtml += '<tr><td width="40%">Nome<br/><br/><b>JAIR SANTOS NETO</b></td><td width="20%">Data<br/><br/><b>' + DtoC(Date()) + '</b></td><td width="40%" class="center">Assinatura<br/><br/>_________________________________</td></tr></table>'
+
+    cHtml += '<div style="font-size: 10px; color: #444;">' + cBase + '</div>'
+
+Return cHtml
+
+// ----------------------------------------------------------------------------
+// Converte numero do mes para nome completo
+// ----------------------------------------------------------------------------
+Static Function _NomeMes(nMes)
+
+    Local aMeses := {"Janeiro", "Fevereiro", "Marco",    "Abril",   "Maio",     "Junho", ;
+                     "Julho",   "Agosto",    "Setembro", "Outubro", "Novembro", "Dezembro"}
+
+    If nMes >= 1 .And. nMes <= 12
+        Return aMeses[nMes]
+    EndIf
+
+Return ""
+
+// ----------------------------------------------------------------------------
+// Formata CNPJ: 00.000.000/0001-00
+// ----------------------------------------------------------------------------
+Static Function _FmtCNPJ(cCNPJ)
+
+    Local cNum := StrTran(StrTran(StrTran(StrTran(cCNPJ, ".", ""), "/", ""), "-", ""), " ", "")
+
+    If Len(cNum) == 14
+        Return SubStr(cNum, 1, 2)  + "." + ;
+               SubStr(cNum, 3, 3)  + "." + ;
+               SubStr(cNum, 6, 3)  + "/" + ;
+               SubStr(cNum, 9, 4)  + "-" + ;
+               SubStr(cNum, 13, 2)
+    EndIf
+
+Return cCNPJ
