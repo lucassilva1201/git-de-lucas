@@ -4,6 +4,9 @@
 ================================================================================
   Programa  : CTBR013
   Descricao : Comprovante Anual de Retencao de CSLL, COFINS, PIS/PASEP e IRRF
+  Autor: Lucas Santos Silva
+  Data: 22/04/2026
+  Versão: 1.0
   Base Legal: Lei no 10.833/2003, Art. 30 / IN SRF 119/2000
   Data      : 2025
   Obs       : Gera dois comprovantes por fornecedor em paginas separadas:
